@@ -1,12 +1,17 @@
 package com.example.ipet.entities;
 
-public class Ong {
+import java.io.Serializable;
+
+public class Ong implements Serializable {
 
     private String nome;
     private String email;
     private String whatsapp;
     private String uf;
     private String cidade;
+
+    public Ong(){
+    }
 
     public Ong(String nome, String email, String whatsapp, String uf, String cidade) {
         this.nome = nome;

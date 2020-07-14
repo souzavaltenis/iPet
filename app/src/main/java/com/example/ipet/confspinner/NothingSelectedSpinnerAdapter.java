@@ -54,7 +54,8 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
      * @param context
      */
     public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter, String title,
-                                         int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
+                                         int nothingSelectedLayout,
+                                         int nothingSelectedDropdownLayout, Context context) {
         this.adapter = spinnerAdapter;
         this.context = context;
         this.title = title;
