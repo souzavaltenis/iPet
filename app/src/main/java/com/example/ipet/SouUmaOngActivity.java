@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,37 +19,42 @@ public class SouUmaOngActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText etEmail;
     EditText etSenha;
-    Button bLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sou_uma_ong);
 
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etSenha = (EditText) findViewById(R.id.etSenha);
+        etEmail = findViewById(R.id.etEmail);
+        etSenha = findViewById(R.id.etSenha);
 
         mAuth = FirebaseAuth.getInstance();
-
-        bLogin = (Button) findViewById(R.id.bLogin);
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String email = etEmail.getText().toString().trim();
-                final String senha = etSenha.getText().toString().trim();
-                testLogin(email, senha);
-            }
-        });
     }
 
-    public void testLogin(String email, String senha){
+    /*
+    * Método executado dentro do onClick do botão Login
+    * Irá extrair as informações dos campos email e senha, repassando para o método realizarLogin
+    * */
+    public void login(View view){
+
+        String email = etEmail.getText().toString();
+        String senha = etSenha.getText().toString();
+
+        realizarLogin(email, senha);
+    }
+
+    /*
+    * Utilizando a autenticação do Firebase, o método recebe email e senha
+    * Com os dados ele verificará se as credenciais estão corretas
+    * Caso sim, o método listagemDeCasos será chamado, repassando o email
+    * */
+    public void realizarLogin(final String email, String senha){
         mAuth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Logou", Toast.LENGTH_LONG).show();
-                            ListagemDeCasos();
+                            listagemDeCasos(email);
                         } else {
                             Toast.makeText(getApplicationContext(), "Credenciais Inválidas!", Toast.LENGTH_LONG).show();
                         }
@@ -58,13 +62,22 @@ public class SouUmaOngActivity extends AppCompatActivity {
                 });
     }
 
-    public void NaoTenhoCadastro(View view){
-        Intent intent = new Intent(this, CadastroOng.class);
+    /*
+     * Método chamado assim que as credenciais forem validadas
+     * Serve para chamar a activity de listagem de casos passando a informação do email da ong
+     * */
+    public void listagemDeCasos(String email){
+        Intent intent = new Intent(this, ListagemDeCasos.class);
+        intent.putExtra("emailOng", email);
         startActivity(intent);
     }
 
-    public void ListagemDeCasos(){
-        Intent intent = new Intent(this, ListagemDeCasos.class);
+    /*
+    * Método do onClick do TextView não tenho cadastro
+    * Serve para chamar a activity de cadastro
+    * */
+    public void naoTenhoCadastro(View view){
+        Intent intent = new Intent(this, CadastroOng.class);
         startActivity(intent);
     }
 

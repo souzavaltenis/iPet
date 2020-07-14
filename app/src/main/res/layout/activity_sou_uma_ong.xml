@@ -72,6 +72,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/button"
+            android:onClick="login"
             android:textColor="#fff"
             android:textSize="18dp"
             android:text="Login" />
@@ -85,7 +86,7 @@
             android:layout_weight="1"
             android:textColor="#2F2C55"
             android:textSize="20dp"
-            android:onClick="NaoTenhoCadastro"
+            android:onClick="naoTenhoCadastro"
             android:drawableLeft="@drawable/ic_arrow_right"
             android:text="Não tenho cadastro" />
 

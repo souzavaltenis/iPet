@@ -88,19 +88,30 @@
             android:drawablePadding="8dp"
             android:inputType="phone" />
 
-        <EditText
-            android:id="@+id/etUFcidade"
+
+        <LinearLayout
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:ems="10"
-            android:background="@drawable/edit"
-            android:padding="5dp"
             android:layout_marginTop="20dp"
-            android:hint="UF/CIDADE"
-            android:textColorHint="#716F89"
-            android:textSize="20dp" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <Spinner
+                android:id="@+id/spUf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+            <Spinner
+                android:id="@+id/spCidade"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/bCadastrar"
@@ -110,9 +121,11 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/button"
+            android:onClick="cadastrar"
             android:textColor="#fff"
             android:textSize="18dp"
             android:text="Cadastrar" />
+
 
 
 
