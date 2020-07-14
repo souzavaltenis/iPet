@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ipet.entities.Caso;
@@ -49,7 +50,11 @@ public class QueroAjudarOng extends AppCompatActivity {
                 new RvCasoOngAdapter.EstadoOnClickListener() {
             @Override
             public void onClickCaso(RvCasoOngAdapter.CasoViewHolder holder, int id) {
-                //Lógica para quando um cardview for clicado
+
+                Intent intent = new Intent(getApplicationContext(), DetalhesCasoActivity.class);
+                intent.putExtra("casoOng", casosOngs.get(id));
+                startActivity(intent);
+
             }
         });
 

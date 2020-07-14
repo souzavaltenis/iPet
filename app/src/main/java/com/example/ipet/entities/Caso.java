@@ -1,10 +1,15 @@
 package com.example.ipet.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class Caso implements Serializable {
+public class Caso implements Serializable, Parcelable {
 
     private String titulo;
     private String descricao;
@@ -62,4 +67,34 @@ public class Caso implements Serializable {
                 ", ong=" + ong +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(titulo);
+        dest.writeString(descricao);
+        dest.writeDouble(valor);
+        dest.writeString(ong.getPath());
+    }
+
+    public Caso(Parcel in) {
+        titulo = in.readString();
+        descricao = in.readString();
+        valor = in.readDouble();
+        ong = FirebaseFirestore.getInstance().document(Objects.requireNonNull(in.readString()));
+    }
+
+    public static final Parcelable.Creator<Caso> CREATOR = new Parcelable.Creator<Caso>() {
+        public Caso createFromParcel(Parcel in) {
+            return new Caso(in);
+        }
+
+        public Caso[] newArray(int size) {
+            return new Caso[size];
+        }
+    };
 }
