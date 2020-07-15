@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:paddingBottom="3dp"
-    android:orientation="vertical" android:layout_width="match_parent" android:paddingRight="5dp"
-    android:layout_height="wrap_content" android:paddingTop="3dp" android:paddingLeft="5dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingBottom="1dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingRight="20dp"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:background="#E5E7EC"
+    android:paddingLeft="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="#E5E7EC">
 
         <LinearLayout android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:background="#777777">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/style_layout">
 
             <TextView
                 android:id="@+id/tvOngInfo"
@@ -19,7 +29,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:text="ONG"
-                android:textColor="#cccccc"
+                android:textColor="#716F89"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -30,7 +40,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="TesteOng"
-                android:textColor="#cccccc"
+                android:textColor="#716F89"
                 android:textSize="18sp" />
 
             <TextView
@@ -40,8 +50,8 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Caso"
-                android:layout_marginTop="20dp"
-                android:textColor="#cccccc"
+                android:layout_marginTop="7dp"
+                android:textColor="#716F89"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -52,7 +62,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Cadelinha triste"
-                android:textColor="#cccccc"
+                android:textColor="#716F89"
                 android:textSize="18sp" />
 
             <TextView
@@ -62,8 +72,8 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Descrição"
-                android:layout_marginTop="20dp"
-                android:textColor="#cccccc"
+                android:layout_marginTop="7dp"
+                android:textColor="#716F89"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -74,7 +84,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="A cadela estava passeando em uma bela rua quando um carro lhe atropelou."
-                android:textColor="#cccccc"
+                android:textColor="#716F89"
                 android:textSize="18sp" />
 
             <TextView
@@ -84,21 +94,35 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Valor"
-                android:layout_marginTop="20dp"
-                android:textColor="#cccccc"
+                android:layout_marginTop="7dp"
+                android:textColor="#716F89"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvValorData"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="R$ 695.34"
-                android:textColor="#cccccc"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvValorData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="R$ 695.34"
+                    android:textColor="#716F89"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="250dp"
+                    android:layout_marginBottom="20dp"
+                    android:drawableRight="@drawable/ic_trash"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

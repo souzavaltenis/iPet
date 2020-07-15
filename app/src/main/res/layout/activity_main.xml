@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:background="@drawable/button"
+        android:background="@drawable/style_button"
         android:onClick="openSouUmaOng"
         android:textColor="#fff"
         android:text="Sou uma ONG" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:background="@drawable/button"
+        android:background="@drawable/style_button"
         android:onClick="openQueroAjudarOng"
         android:textColor="#fff"
         android:text="Quero ajudar uma ONG" />

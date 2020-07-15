@@ -18,6 +18,8 @@ import com.example.ipet.firebase.CasoUtils;
 import com.example.ipet.recyclerview.RvCasoOngAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,7 +30,7 @@ import java.util.Objects;
 
 public class ListagemDeCasos extends AppCompatActivity {
 
-    Button btCriarCaso;
+    FloatingActionButton btCriarCaso;
     RecyclerView rvCasosOng;
     TextView tvNomeDaOng;
     TextView tvTotCases;
@@ -53,7 +55,6 @@ public class ListagemDeCasos extends AppCompatActivity {
         casosOngs = new ArrayList<>();
 
         tvNomeDaOng = findViewById(R.id.tvNomeDaOng);
-        tvTotCases = findViewById(R.id.tvTotCases);
 
         btCriarCaso = findViewById(R.id.btAddCase);
         btCriarCaso.setEnabled(false); //desativa até que os dados da ong sejam carregados
@@ -104,14 +105,14 @@ public class ListagemDeCasos extends AppCompatActivity {
         tvNomeDaOng.setText(ong.getNome());
 
         casoUtils = new CasoUtils(db, casosOngs, rvCasoOngAdapter, docOng.getReference(),
-                new CasoUtils.Changes() {
+               new CasoUtils.Changes() {
             //quanto houver requisições dentro do casoUtils, será coletado a quantidade de casos
             //foi usado callbacks para conseguir alterar o valor do textview da forma certa.
             @Override
             public void setarQuantidadeCasos(int qtd) {
-                tvTotCases.setText(String.valueOf(qtd));
-            }
-        });
+              //tvTotCases.setText(String.valueOf(qtd));
+           }
+       });
 
         casoUtils.listenerCasos();
     }
@@ -123,6 +124,11 @@ public class ListagemDeCasos extends AppCompatActivity {
     public void criarCaso(View view){
         Intent intent = new Intent(getApplicationContext(), CriarCasoActivity.class);
         intent.putExtra("pathDocOng", pathDocOng);
+        startActivity(intent);
+    }
+    public void deslogar(View view){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 

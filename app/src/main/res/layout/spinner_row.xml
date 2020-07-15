@@ -6,5 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:textSize="18sp"
-    android:textColor="#808080" />
+    android:textSize="18dp"
+    android:textColor="#716F89" />

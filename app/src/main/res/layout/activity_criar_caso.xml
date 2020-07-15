@@ -1,52 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E5E7EC"
     tools:context=".CriarCasoActivity">
+
+    <ImageView
+        android:id="@+id/ivTituloLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        app:srcCompat="@drawable/ipet_logo_pages" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:textSize="24dp"
+        android:layout_marginStart="16dp"
+        android:text="Crie um novo caso." />
 
     <EditText
         android:id="@+id/etTitleCase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="345dp"
+        android:layout_height="50dp"
         android:layout_marginTop="32dp"
+        android:layout_gravity="center"
         android:ems="10"
+        android:textColorHint="#716F89"
+        android:textSize="20dp"
+        android:background="@drawable/style_edit"
+        android:padding="5dp"
         android:inputType="textPersonName"
-        android:hint="Titulo do Caso"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="Titulo do Caso" />
 
     <EditText
         android:id="@+id/etDescricaoCaso"
-        android:layout_width="match_parent"
+        android:layout_width="345dp"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:ems="10"
+        android:textColorHint="#716F89"
+        android:textSize="20dp"
+        android:background="@drawable/style_edit"
+        android:padding="5dp"
+        android:gravity="left|top"
         android:inputType="textPersonName"
-        android:hint="Descricao"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTitleCase" />
+        android:hint="Descricao" />
 
     <EditText
         android:id="@+id/etValorCaso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="345dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Valor R$"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescricaoCaso" />
+        android:textColorHint="#716F89"
+        android:textSize="20dp"
+        android:background="@drawable/style_edit"
+        android:padding="5dp"
+        android:inputType="numberDecimal"
+        android:hint="Valor em (R$)" />
 
     <Button
         android:id="@+id/btCriarCaso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Criar Caso"
-        android:onClick="criarUmCaso"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etValorCaso" />
+        android:layout_width="345dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/style_button"
+        android:textColor="#fff"
+        android:textSize="18dp"
+        android:text="Criar um Caso"
+        android:onClick="criarUmCaso"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

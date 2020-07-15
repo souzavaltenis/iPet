@@ -25,7 +25,7 @@ public class Ong implements Serializable, Parcelable {
     }
 
     public String getNome() {
-        return nome;
+        return "Bem-Vinda " + nome;
     }
 
     public void setNome(String nome) {

@@ -35,11 +35,11 @@ public class SpinnerUtils {
     }
 
     /*
-    * Método que irá inicializar um spinner, setando um conjunto de dados vazios, porém também
+    * Método que irá inicializar um style_spinner, setando um conjunto de dados vazios, porém também
     * setará um titulo, adicionando um adaptador personalizado
     * */
     private static void initSpinner(Spinner spinner, String title, Context context){
-        spinner.setEnabled(false); //spinner é desativado, e só é ativado na classe ConfigureSpinner
+        spinner.setEnabled(false); //style_spinner é desativado, e só é ativado na classe ConfigureSpinner
         spinner.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         new ArrayAdapter<>(context, R.layout.spinner_row,
@@ -49,7 +49,7 @@ public class SpinnerUtils {
     }
 
     /*
-    * Irá setar os dados no spinner com ajuda do método runConf da classe ConfigureSpinner
+    * Irá setar os dados no style_spinner com ajuda do método runConf da classe ConfigureSpinner
     * */
     private static void setDataSpCity(Context context, Spinner spinnerCity, String titleSpCity,
                                String urlStatic, String itemSelected){

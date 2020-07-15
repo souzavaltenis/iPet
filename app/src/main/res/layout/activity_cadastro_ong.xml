@@ -22,12 +22,12 @@
 
         <EditText
             android:id="@+id/etNome"
-            android:layout_width="320dp"
+            android:layout_width="345dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:ems="10"
-            android:background="@drawable/edit"
+            android:background="@drawable/style_edit"
             android:padding="5dp"
             android:layout_marginTop="80dp"
             android:hint="Nome da ONG"
@@ -39,12 +39,12 @@
 
         <EditText
             android:id="@+id/etEmail"
-            android:layout_width="320dp"
+            android:layout_width="345dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:ems="10"
-            android:background="@drawable/edit"
+            android:background="@drawable/style_edit"
             android:padding="5dp"
             android:layout_marginTop="20dp"
             android:hint="E-mail"
@@ -56,12 +56,12 @@
 
         <EditText
             android:id="@+id/etSenha"
-            android:layout_width="320dp"
+            android:layout_width="345dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:ems="10"
-            android:background="@drawable/edit"
+            android:background="@drawable/style_edit"
             android:padding="5dp"
             android:layout_marginTop="20dp"
             android:hint="Senha"
@@ -73,12 +73,12 @@
 
         <EditText
             android:id="@+id/etWhatsapp"
-            android:layout_width="320dp"
+            android:layout_width="345dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:ems="10"
-            android:background="@drawable/edit"
+            android:background="@drawable/style_edit"
             android:padding="5dp"
             android:layout_marginTop="20dp"
             android:hint="Whatsapp"
@@ -90,7 +90,7 @@
 
 
         <LinearLayout
-            android:layout_width="320dp"
+            android:layout_width="345dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
@@ -101,15 +101,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:background="@drawable/style_spinner"
                 android:layout_weight="1"
-                android:layout_gravity="center"/>
+                android:layout_gravity="left"/>
+
             <Spinner
                 android:id="@+id/spCidade"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/style_spinner"
+                android:padding="5dp" />
 
         </LinearLayout>
 
@@ -120,14 +124,11 @@
             android:layout_marginTop="120dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/button"
+            android:background="@drawable/style_button"
             android:onClick="cadastrar"
             android:textColor="#fff"
             android:textSize="18dp"
             android:text="Cadastrar" />
-
-
-
 
     </LinearLayout>
 </LinearLayout>

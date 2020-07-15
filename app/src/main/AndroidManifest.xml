@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CriarCasoActivity"></activity>
+        <activity android:name=".CriarCasoActivity" />
         <activity android:name=".DetalhesCasoActivity" />
         <activity android:name=".ListagemDeCasos" />
         <activity android:name=".CadastroOng" />
