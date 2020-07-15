@@ -23,8 +23,7 @@ public class RvTodosCasosOngAdapter extends RecyclerView.Adapter<RvTodosCasosOng
     private final RvTodosCasosOngAdapter.CasoOnClickListener onClickListener;
 
     public interface CasoOnClickListener {
-        void onClickCaso(RvTodosCasosOngAdapter.CasoViewHolder holder, int id);
-        void onClickTrash(int position);
+        void onClickDetails(int position);
     }
 
     public RvTodosCasosOngAdapter(Context context, List<CasoOng> casosOngs,
@@ -40,16 +39,6 @@ public class RvTodosCasosOngAdapter extends RecyclerView.Adapter<RvTodosCasosOng
                 viewGroup, false);
         RvTodosCasosOngAdapter.CasoViewHolder holder = new  RvTodosCasosOngAdapter.CasoViewHolder(view);
         return holder;
-    }
-
-    public void addItem(CasoOng casoOng) {
-        casosOngs.add(casoOng);
-        notifyDataSetChanged();
-    }
-
-    public void addItems(List<CasoOng> casosOngs) {
-        this.casosOngs = casosOngs;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -70,19 +59,10 @@ public class RvTodosCasosOngAdapter extends RecyclerView.Adapter<RvTodosCasosOng
         holder.tvDescricao.setText(caso.getDescricao());
         holder.tvValor.setText(String.valueOf(caso.getValor()));
 
-        if (onClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClickCaso(holder, position);
-                }
-            });
-        }
-
-        holder.trashTv.setOnClickListener(new View.OnClickListener() {
+        holder.tvMaisDetalhes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onClickTrash(position);
+                onClickListener.onClickDetails(position);
             }
         });
     }
@@ -93,7 +73,7 @@ public class RvTodosCasosOngAdapter extends RecyclerView.Adapter<RvTodosCasosOng
         TextView tvTitulo;
         TextView tvDescricao;
         TextView tvValor;
-        TextView trashTv;
+        TextView tvMaisDetalhes;
         View view;
 
         public CasoViewHolder(View view) {
@@ -103,7 +83,7 @@ public class RvTodosCasosOngAdapter extends RecyclerView.Adapter<RvTodosCasosOng
             tvTitulo = view.findViewById(R.id.tvTitleData);
             tvDescricao = view.findViewById(R.id.tvDescricaoData);
             tvValor = view.findViewById(R.id.tvValorData);
-            trashTv = view.findViewById(R.id.trashTv);
+            tvMaisDetalhes = view.findViewById(R.id.tvMaisDetalhes);
         }
     }
 

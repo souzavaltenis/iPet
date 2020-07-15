@@ -42,7 +42,7 @@ public class ListagemDeCasos extends AppCompatActivity {
     String pathDocOng;
 
     RvCasoOngAdapter rvCasoOngAdapter;
-    CasoUtils casoUtils;
+    CasoUtils<RvCasoOngAdapter.CasoViewHolder> casoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +67,6 @@ public class ListagemDeCasos extends AppCompatActivity {
 
         rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOngs,
                 new RvCasoOngAdapter.CasoOnClickListener() {
-            @Override
-            public void onClickCaso(RvCasoOngAdapter.CasoViewHolder holder, int id) {
-
-            }
-
             @Override
             public void onClickTrash(int position) {
                 apagarCaso(casosOngs.get(position).getCaso().getId());
@@ -116,7 +111,9 @@ public class ListagemDeCasos extends AppCompatActivity {
         ong = docOng.toObject(Ong.class);
         tvNomeDaOng.setText("Bem-vinda " + ong.getNome());
 
-        casoUtils = new CasoUtils(db, casosOngs, rvCasoOngAdapter, docOng.getReference(), null);
+        casoUtils = new CasoUtils<>(db, casosOngs, rvCasoOngAdapter, docOng.getReference(),
+                null);
+
         casoUtils.listenerCasos();
     }
 

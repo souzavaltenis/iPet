@@ -2,11 +2,11 @@ package com.example.ipet.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ipet.entities.Caso;
 import com.example.ipet.entities.CasoOng;
 import com.example.ipet.entities.Ong;
-import com.example.ipet.recyclerview.RvCasoOngAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,7 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 import java.util.Objects;
 
-public class CasoUtils {
+public class CasoUtils<T extends RecyclerView.ViewHolder> {
 
     public interface Changes{
         void setarQuantidadeCasos(int qtd);
@@ -27,16 +27,16 @@ public class CasoUtils {
 
     FirebaseFirestore db;
     List<CasoOng> casosOngs;
-    RvCasoOngAdapter rvCasoOngAdapter;
+    RecyclerView.Adapter<T> rvAdapter;
     DocumentReference filterOngId;
     Changes changes;
 
     public CasoUtils(FirebaseFirestore db, List<CasoOng> casosOngs,
-                     RvCasoOngAdapter rvCasoOngAdapter, DocumentReference filterOngId,
+                     RecyclerView.Adapter<T> rvAdapter, DocumentReference filterOngId,
                      Changes changes) {
         this.db = db;
         this.casosOngs = casosOngs;
-        this.rvCasoOngAdapter = rvCasoOngAdapter;
+        this.rvAdapter = rvAdapter;
         this.filterOngId = filterOngId;
         this.changes = changes;
     }
@@ -134,6 +134,6 @@ public class CasoUtils {
      * */
     public void setarDadoCaso(CasoOng casoOng){
         casosOngs.add(casoOng);
-        rvCasoOngAdapter.notifyDataSetChanged();
+        rvAdapter.notifyDataSetChanged();
     }
 }

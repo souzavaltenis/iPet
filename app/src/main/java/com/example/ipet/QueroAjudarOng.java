@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.ipet.entities.CasoOng;
 import com.example.ipet.firebase.CasoUtils;
-import com.example.ipet.recyclerview.RvCasoOngAdapter;
+import com.example.ipet.recyclerview.RvTodosCasosOngAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class QueroAjudarOng extends AppCompatActivity {
     FirebaseFirestore db;
     List<CasoOng> casosOngs;
     RecyclerView rvQueroAjudar;
-    RvCasoOngAdapter rvCasoOngAdapter;
-    CasoUtils casoUtils;
+    RvTodosCasosOngAdapter rvTodosCasosOngAdapter;
+    CasoUtils<RvTodosCasosOngAdapter.CasoViewHolder> casoUtils;
     TextView tvTotalCasos;
 
     @Override
@@ -40,27 +40,21 @@ public class QueroAjudarOng extends AppCompatActivity {
         rvQueroAjudar.setItemAnimator(new DefaultItemAnimator());
         rvQueroAjudar.setHasFixedSize(true);
 
-        rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOngs,
-                new RvCasoOngAdapter.CasoOnClickListener() {
-            @Override
-            public void onClickCaso(RvCasoOngAdapter.CasoViewHolder holder, int id) {
-                Intent intent = new Intent(getApplicationContext(), DetalhesCasoActivity.class);
-                intent.putExtra("casoOng", casosOngs.get(id));
-                startActivity(intent);
-
-            }
-
-            @Override
-            public void onClickTrash(int position) {
-
-            }
-
+        rvTodosCasosOngAdapter = new RvTodosCasosOngAdapter(this, casosOngs,
+                new RvTodosCasosOngAdapter.CasoOnClickListener() {
+                    @Override
+                    public void onClickDetails(int position) {
+                        Intent intent = new Intent(getApplicationContext(),
+                                DetalhesCasoActivity.class);
+                        intent.putExtra("casoOng", casosOngs.get(position));
+                        startActivity(intent);
+                    }
          });
 
-        rvQueroAjudar.setAdapter(rvCasoOngAdapter);
+        rvQueroAjudar.setAdapter(rvTodosCasosOngAdapter);
 
-        casoUtils = new CasoUtils(db, casosOngs, rvCasoOngAdapter, null,
-                new CasoUtils.Changes() {
+        casoUtils = new CasoUtils<>(db, casosOngs,
+                rvTodosCasosOngAdapter, null, new CasoUtils.Changes() {
             //quanto houver requisições dentro do casoUtils, será coletado a quantidade de casos
             //foi usado callbacks para conseguir alterar o valor do textview da forma certa.
             @Override

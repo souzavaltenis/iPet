@@ -23,7 +23,6 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
     private final CasoOnClickListener onClickListener;
 
     public interface CasoOnClickListener {
-        void onClickCaso(CasoViewHolder holder, int id);
         void onClickTrash(int position);
     }
 
@@ -40,16 +39,6 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
                 viewGroup, false);
         CasoViewHolder holder = new CasoViewHolder(view);
         return holder;
-    }
-
-    public void addItem(CasoOng casoOng) {
-        casosOngs.add(casoOng);
-        notifyDataSetChanged();
-    }
-
-    public void addItems(List<CasoOng> casosOngs) {
-        this.casosOngs = casosOngs;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -69,15 +58,6 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
         holder.tvTitulo.setText(caso.getTitulo());
         holder.tvDescricao.setText(caso.getDescricao());
         holder.tvValor.setText(String.valueOf(caso.getValor()));
-
-        if (onClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClickCaso(holder, position);
-                }
-            });
-        }
 
         holder.trashTv.setOnClickListener(new View.OnClickListener() {
             @Override
