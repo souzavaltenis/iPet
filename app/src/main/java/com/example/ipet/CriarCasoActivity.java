@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Random;
+
 public class CriarCasoActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
@@ -32,12 +34,13 @@ public class CriarCasoActivity extends AppCompatActivity {
     * */
     public void criarUmCaso(View view){
 
+        String id = getRandomId();
         String titulo = getTextOfEt(R.id.etTitleCase);
         String descricao = getTextOfEt(R.id.etDescricaoCaso);
         Double valor = Double.parseDouble(getTextOfEt(R.id.etValorCaso));
         DocumentReference docOng = db.document(pathDocOng);
 
-        Caso caso = new Caso(titulo, descricao, valor, docOng);
+        Caso caso = new Caso(id, titulo, descricao, valor, docOng);
 
         db.collection("casos")
                 .add(caso)
@@ -59,4 +62,31 @@ public class CriarCasoActivity extends AppCompatActivity {
         return editText.getText().toString();
     }
 
+    /*
+     * Cria um id único usando conjunto de letras aleatória, junto com o sistema do tempo
+     * multiplicado por um número randomico, por fim, adiciona mais letras aleatórias
+     * */
+    public String getRandomId(){
+        return "_" + getLetrasRand() +
+                System.currentTimeMillis() * new Random().nextInt(1000) +
+                getLetrasRand();
+    }
+
+    /*
+    * Gera um conjunto de 4 letras armazendas em uma string.
+    * As letras podem ser de 'a' até 'z'.
+    * */
+    public String getLetrasRand(){
+
+        StringBuilder str = new StringBuilder();
+
+        int min = 97; //a
+        int max = 122; //z
+
+        for(int i=0; i<4; i++){
+            str.append((char) (new Random().nextInt((max - min) + 1) + min));
+        }
+
+        return str.toString();
+    }
 }

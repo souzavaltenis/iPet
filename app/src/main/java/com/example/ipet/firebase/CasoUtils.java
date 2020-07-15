@@ -1,8 +1,5 @@
 package com.example.ipet.firebase;
 
-import android.app.Activity;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -74,7 +71,9 @@ public class CasoUtils {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             QuerySnapshot documents = Objects.requireNonNull(task.getResult());
-                            changes.setarQuantidadeCasos(documents.size());//seta qtd de casos atual
+                            if(changes != null) {
+                                changes.setarQuantidadeCasos(documents.size());//seta qtd de casos atual
+                            }
                             extractDataCasos(documents);
                         }
                     });
@@ -88,7 +87,9 @@ public class CasoUtils {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             QuerySnapshot documents = Objects.requireNonNull(task.getResult());
-                            changes.setarQuantidadeCasos(documents.size());//seta qtd de casos atual
+                            if(changes != null) {
+                                changes.setarQuantidadeCasos(documents.size());//seta qtd de casos atual
+                            }
                             extractDataCasos(documents);
                         }
                     });

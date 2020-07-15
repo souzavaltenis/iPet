@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ipet.entities.CasoOng;
 import com.example.ipet.entities.Ong;
 import com.example.ipet.firebase.CasoUtils;
 import com.example.ipet.recyclerview.RvCasoOngAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,6 @@ public class ListagemDeCasos extends AppCompatActivity {
     FloatingActionButton btCriarCaso;
     RecyclerView rvCasosOng;
     TextView tvNomeDaOng;
-    TextView tvTotCases;
 
     String emailOng;
     Ong ong;
@@ -55,6 +55,7 @@ public class ListagemDeCasos extends AppCompatActivity {
         casosOngs = new ArrayList<>();
 
         tvNomeDaOng = findViewById(R.id.tvNomeDaOng);
+        tvNomeDaOng.setText("");
 
         btCriarCaso = findViewById(R.id.btAddCase);
         btCriarCaso.setEnabled(false); //desativa até que os dados da ong sejam carregados
@@ -64,7 +65,18 @@ public class ListagemDeCasos extends AppCompatActivity {
         rvCasosOng.setItemAnimator(new DefaultItemAnimator());
         rvCasosOng.setHasFixedSize(true);
 
-        rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOngs, null);
+        rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOngs,
+                new RvCasoOngAdapter.CasoOnClickListener() {
+            @Override
+            public void onClickCaso(RvCasoOngAdapter.CasoViewHolder holder, int id) {
+
+            }
+
+            @Override
+            public void onClickTrash(int position) {
+                apagarCaso(casosOngs.get(position).getCaso().getId());
+            }
+        });
 
         rvCasosOng.setAdapter(rvCasoOngAdapter);
 
@@ -102,18 +114,9 @@ public class ListagemDeCasos extends AppCompatActivity {
         pathDocOng = "ongs/" + docOng.getId();
 
         ong = docOng.toObject(Ong.class);
-        tvNomeDaOng.setText(ong.getNome());
+        tvNomeDaOng.setText("Bem-vinda " + ong.getNome());
 
-        casoUtils = new CasoUtils(db, casosOngs, rvCasoOngAdapter, docOng.getReference(),
-               new CasoUtils.Changes() {
-            //quanto houver requisições dentro do casoUtils, será coletado a quantidade de casos
-            //foi usado callbacks para conseguir alterar o valor do textview da forma certa.
-            @Override
-            public void setarQuantidadeCasos(int qtd) {
-              //tvTotCases.setText(String.valueOf(qtd));
-           }
-       });
-
+        casoUtils = new CasoUtils(db, casosOngs, rvCasoOngAdapter, docOng.getReference(), null);
         casoUtils.listenerCasos();
     }
 
@@ -126,10 +129,47 @@ public class ListagemDeCasos extends AppCompatActivity {
         intent.putExtra("pathDocOng", pathDocOng);
         startActivity(intent);
     }
+
     public void deslogar(View view){
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+    /*
+    * Método que apaga um documento de caso na coleção casos, filtrado pela sua id
+    * */
+    public void apagarCaso(String id){
+
+        db.collection("casos")
+                .whereEqualTo("id", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        //pegou o primeiro documento e salvou o seu id
+                        //a garantia do primeiro é pelo fato de que só irá existir
+                        //1 caso com essa id.
+                        String idCaso = task.getResult().iterator().next().getId();
+                        apagarDocumento(idCaso);
+                    }
+                });
+    }
+
+    /*
+    * Recebe o id do documento para que a exclusão seja realizada na coleção casos.
+    * */
+    public void apagarDocumento(String pathDocCaso){
+
+        db.collection("casos").document(pathDocCaso)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Caso apagado",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
 }

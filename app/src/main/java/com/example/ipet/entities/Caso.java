@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class Caso implements Serializable, Parcelable {
 
+    private String id;
     private String titulo;
     private String descricao;
     private Double valor;
@@ -19,7 +20,8 @@ public class Caso implements Serializable, Parcelable {
     public Caso(){
     }
 
-    public Caso(String titulo, String descricao, Double valor, DocumentReference ong) {
+    public Caso(String id, String titulo, String descricao, Double valor, DocumentReference ong) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.valor = valor;
@@ -42,6 +44,14 @@ public class Caso implements Serializable, Parcelable {
         this.descricao = descricao;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Double getValor() {
         return valor;
     }
@@ -61,7 +71,8 @@ public class Caso implements Serializable, Parcelable {
     @Override
     public String toString() {
         return "Caso{" +
-                "titulo='" + titulo + '\'' +
+                "id='" + id + '\'' +
+                ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +
                 ", ong=" + ong +
@@ -75,6 +86,7 @@ public class Caso implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(titulo);
         dest.writeString(descricao);
         dest.writeDouble(valor);
@@ -82,6 +94,7 @@ public class Caso implements Serializable, Parcelable {
     }
 
     public Caso(Parcel in) {
+        id = in.readString();
         titulo = in.readString();
         descricao = in.readString();
         valor = in.readDouble();

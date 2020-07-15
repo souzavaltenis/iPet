@@ -1,7 +1,5 @@
 package com.example.ipet;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,16 +41,21 @@ public class QueroAjudarOng extends AppCompatActivity {
         rvQueroAjudar.setHasFixedSize(true);
 
         rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOngs,
-                new RvCasoOngAdapter.EstadoOnClickListener() {
+                new RvCasoOngAdapter.CasoOnClickListener() {
             @Override
             public void onClickCaso(RvCasoOngAdapter.CasoViewHolder holder, int id) {
-
                 Intent intent = new Intent(getApplicationContext(), DetalhesCasoActivity.class);
                 intent.putExtra("casoOng", casosOngs.get(id));
                 startActivity(intent);
 
             }
-        });
+
+            @Override
+            public void onClickTrash(int position) {
+
+            }
+
+         });
 
         rvQueroAjudar.setAdapter(rvCasoOngAdapter);
 

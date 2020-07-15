@@ -20,14 +20,15 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
 
     private final Context context;
     private List<CasoOng> casosOngs;
-    private final EstadoOnClickListener onClickListener;
+    private final CasoOnClickListener onClickListener;
 
-    public interface EstadoOnClickListener {
+    public interface CasoOnClickListener {
         void onClickCaso(CasoViewHolder holder, int id);
+        void onClickTrash(int position);
     }
 
     public RvCasoOngAdapter(Context context, List<CasoOng> casosOngs,
-                            EstadoOnClickListener onClickListener) {
+                            CasoOnClickListener onClickListener) {
         this.context = context;
         this.casosOngs = casosOngs != null ? casosOngs : new ArrayList<CasoOng>();
         this.onClickListener = onClickListener;
@@ -77,6 +78,13 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
                 }
             });
         }
+
+        holder.trashTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClickTrash(position);
+            }
+        });
     }
 
     public static class CasoViewHolder extends RecyclerView.ViewHolder {
@@ -85,6 +93,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
         TextView tvTitulo;
         TextView tvDescricao;
         TextView tvValor;
+        TextView trashTv;
         View view;
 
         public CasoViewHolder(View view) {
@@ -94,6 +103,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
             tvTitulo = view.findViewById(R.id.tvTitleData);
             tvDescricao = view.findViewById(R.id.tvDescricaoData);
             tvValor = view.findViewById(R.id.tvValorData);
+            trashTv = view.findViewById(R.id.trashTv);
         }
     }
 }
