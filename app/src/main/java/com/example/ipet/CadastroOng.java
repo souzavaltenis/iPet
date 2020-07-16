@@ -50,13 +50,19 @@ public class CadastroOng extends AppCompatActivity {
         String nome = getTextOfEt(R.id.etNome);
         String email = getTextOfEt(R.id.etEmail);
         String senha = getTextOfEt(R.id.etSenha);
-        String whatsapp = getTextOfEt(R.id.etWhatsapp);
+        String whatsapp = verificaNumero(getTextOfEt(R.id.etWhatsapp));
         String uf = getDataOfSp(R.id.spUf);
         String cidade = getDataOfSp(R.id.spCidade);
 
         Ong ong = new Ong(nome, email, whatsapp, uf, cidade);
 
         criarUserOng(ong, senha);
+    }
+
+    public String verificaNumero(String num){
+        String dddPais = "55";
+        String doisPrimeirosDigitos = num.substring(0, 2);
+        return !doisPrimeirosDigitos.equals(dddPais) ? dddPais + num : num;
     }
 
     /*
