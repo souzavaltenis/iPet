@@ -41,7 +41,7 @@
         android:layout_marginStart="16dp"
         android:text="Nome da Ong"/>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -59,13 +59,18 @@
             android:id="@+id/btAddCase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:backgroundTint="#6C63FF"
-            android:layout_marginLeft="320dp"
-            android:layout_marginTop="450dp"
             android:onClick="criarCaso"
             app:fabCustomSize="65dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rvCasosOng"
+            app:layout_constraintEnd_toEndOf="@+id/rvCasosOng"
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toStartOf="@+id/rvCasosOng"
+            app:layout_constraintTop_toTopOf="@+id/rvCasosOng"
+            app:layout_constraintVertical_bias="0.94"
             app:srcCompat="@drawable/ic_add" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
