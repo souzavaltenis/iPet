@@ -1,14 +1,16 @@
-package com.example.ipet;
+package com.example.ipet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.ipet.R;
 import com.example.ipet.confspinner.SpinnerUtils;
 import com.example.ipet.entities.Ong;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,13 +18,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CadastroOng extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;
+    EditText etNome, etEmail, etSenha, etWhatsapp;
+    Spinner spUf, spCidade;
+    Button bCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,19 @@ public class CadastroOng extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        Spinner spinnerUf = findViewById(R.id.spUf);
-        Spinner spinnerCidade = findViewById(R.id.spCidade);
+        etNome = findViewById(R.id.etNome);
+        etEmail = findViewById(R.id.etEmail);
+        etSenha = findViewById(R.id.etSenha);
+        etWhatsapp = findViewById(R.id.etWhatsapp);
+
+        spUf = findViewById(R.id.spUf);
+        spCidade = findViewById(R.id.spCidade);
 
         SpinnerUtils.confSpinners(getApplicationContext(),
-                spinnerUf, "UF",
-                spinnerCidade, "Cidade");
+                spUf, "UF",
+                spCidade, "Cidade");
+
+        bCadastrar = findViewById(R.id.bCadastrar);
     }
 
     /*
@@ -47,22 +58,40 @@ public class CadastroOng extends AppCompatActivity {
     * */
     public void cadastrar(View view){
 
-        String nome = getTextOfEt(R.id.etNome);
-        String email = getTextOfEt(R.id.etEmail);
-        String senha = getTextOfEt(R.id.etSenha);
-        String whatsapp = verificaNumero(getTextOfEt(R.id.etWhatsapp));
+        String nome = etNome.getText().toString();
+        String email = etEmail.getText().toString();
+        String senha = etSenha.getText().toString();
+        String whatsapp = verificaNumero(etWhatsapp.getText().toString());
         String uf = getDataOfSp(R.id.spUf);
         String cidade = getDataOfSp(R.id.spCidade);
 
         Ong ong = new Ong(nome, email, whatsapp, uf, cidade);
 
+        setEnableViews(false); //desativa as views enquanto o cadastro esta sendo realizado
+
         criarUserOng(ong, senha);
     }
 
+    /*
+    * Validação de número com ou sem ddd do pais
+    * */
     public String verificaNumero(String num){
         String dddPais = "55";
         String doisPrimeirosDigitos = num.substring(0, 2);
         return !doisPrimeirosDigitos.equals(dddPais) ? dddPais + num : num;
+    }
+
+    /*
+     * Método para habilidar/desabilidar todas views da interface de cadastro ong
+     * */
+    public void setEnableViews(boolean op){
+        etNome.setEnabled(op);
+        etEmail.setEnabled(op);
+        etSenha.setEnabled(op);
+        etWhatsapp.setEnabled(op);
+        spUf.setEnabled(op);
+        spCidade.setEnabled(op);
+        bCadastrar.setEnabled(op);
     }
 
     /*
@@ -79,6 +108,7 @@ public class CadastroOng extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             salvarDadosOng(ong);
                         } else {
+                            setEnableViews(true); //ativa caso algo deu errado
                             Toast.makeText(getApplicationContext(), "Erro no cadastro.",
                                     Toast.LENGTH_LONG).show();
                         }
@@ -91,23 +121,15 @@ public class CadastroOng extends AppCompatActivity {
     * */
     public void salvarDadosOng(Ong ong){
         db.collection("ongs")
-                .add(ong)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(ong.getEmail()).set(ong)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         Toast.makeText(getApplicationContext(), "Cadastro Relizado.",
                                 Toast.LENGTH_LONG).show();
                         onBackPressed();
                     }
                 });
-    }
-
-    /*
-    * Método que recebe o id de um EditText e pega o seu conteudo
-    * */
-    public String getTextOfEt(int idEditText){
-        EditText editText = findViewById(idEditText);
-        return editText.getText().toString();
     }
 
     /*

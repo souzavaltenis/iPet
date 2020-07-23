@@ -11,7 +11,7 @@
     android:backgroundTint="#E5E7EC"
     android:background="#E5E7EC"
     android:paddingLeft="20dp"
-    tools:context=".DetalhesCasoActivity">
+    tools:context=".activities.DetalhesCasoActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"

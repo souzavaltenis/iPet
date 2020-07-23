@@ -1,10 +1,12 @@
-package com.example.ipet;
+package com.example.ipet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.ipet.R;
 
 public class MainActivity extends AppCompatActivity {
 

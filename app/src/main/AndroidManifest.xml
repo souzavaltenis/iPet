@@ -11,15 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CriarCasoActivity" />
-        <activity android:name=".DetalhesCasoActivity" />
-        <activity android:name=".ListagemDeCasos" />
-        <activity android:name=".CadastroOng" />
-        <activity android:name=".QueroAjudarOng" />
-        <activity android:name=".SouUmaOngActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.CriarCasoActivity" />
+        <activity android:name=".activities.DetalhesCasoActivity" />
+        <activity android:name=".activities.ListagemDeCasos" />
+        <activity android:name=".activities.CadastroOng" />
+        <activity android:name=".activities.QueroAjudarOng" />
+        <activity android:name=".activities.SouUmaOngActivity" />
+        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/AppThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

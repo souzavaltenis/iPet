@@ -3,11 +3,7 @@ package com.example.ipet.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Caso implements Serializable, Parcelable {
 
@@ -15,12 +11,12 @@ public class Caso implements Serializable, Parcelable {
     private String titulo;
     private String descricao;
     private Double valor;
-    private DocumentReference ong;
+    private Ong ong;
 
     public Caso(){
     }
 
-    public Caso(String id, String titulo, String descricao, Double valor, DocumentReference ong) {
+    public Caso(String id, String titulo, String descricao, Double valor, Ong ong) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -60,11 +56,11 @@ public class Caso implements Serializable, Parcelable {
         this.valor = valor;
     }
 
-    public DocumentReference getOng() {
+    public Ong getOng() {
         return ong;
     }
 
-    public void setOng(DocumentReference ong) {
+    public void setOng(Ong ong) {
         this.ong = ong;
     }
 
@@ -90,7 +86,7 @@ public class Caso implements Serializable, Parcelable {
         dest.writeString(titulo);
         dest.writeString(descricao);
         dest.writeDouble(valor);
-        dest.writeString(ong.getPath());
+        dest.writeParcelable(ong, flags);
     }
 
     public Caso(Parcel in) {
@@ -98,7 +94,7 @@ public class Caso implements Serializable, Parcelable {
         titulo = in.readString();
         descricao = in.readString();
         valor = in.readDouble();
-        ong = FirebaseFirestore.getInstance().document(Objects.requireNonNull(in.readString()));
+        ong = in.readParcelable(Ong.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Caso> CREATOR = new Parcelable.Creator<Caso>() {

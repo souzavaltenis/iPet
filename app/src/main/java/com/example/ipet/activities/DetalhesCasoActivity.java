@@ -1,4 +1,4 @@
-package com.example.ipet;
+package com.example.ipet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ipet.R;
 import com.example.ipet.entities.Caso;
-import com.example.ipet.entities.CasoOng;
-import com.example.ipet.entities.Ong;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +18,6 @@ import java.util.Date;
 public class DetalhesCasoActivity extends AppCompatActivity {
 
     Caso caso;
-    Ong ong;
     Button email;
     Button Whatsapp;
 
@@ -28,23 +26,19 @@ public class DetalhesCasoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_caso);
 
-        email = (Button) findViewById(R.id.btEmailOngCase);
-        Whatsapp = (Button) findViewById(R.id.btWhatsappOngCase);
+        email = findViewById(R.id.btEmailOngCase);
+        Whatsapp = findViewById(R.id.btWhatsappOngCase);
 
-        CasoOng casoOng = getIntent().getParcelableExtra("casoOng");
-
-        caso = casoOng.getCaso();
-        ong = casoOng.getOng();
+        caso = getIntent().getParcelableExtra("casoOng");
 
         setarInformacoes();
-
     }
 
     /*
-    * Pega todos os dados do casoOng e seta nos TextView's
+    * Pega todos os dados do caso e seta nos TextView's
     * */
     public void setarInformacoes(){
-        setTextTv(R.id.tvOngData, ong.getNome());
+        setTextTv(R.id.tvOngData, caso.getOng().getNome());
         setTextTv(R.id.tvTitleData, caso.getTitulo());
         setTextTv(R.id.tvDescricaoData, caso.getDescricao());
         setTextTv(R.id.tvValorData, String.valueOf(caso.getValor()));
@@ -58,9 +52,12 @@ public class DetalhesCasoActivity extends AppCompatActivity {
         tv.setText(text);
     }
 
+    /*
+    * Método chamado no onClick da setinha na parte superior da interface de detalhes de caso
+    * fazendo com que apenas simule o clique no botão de voltar
+    * */
     public void voltar(View view){
-        Intent intent = new Intent(getApplicationContext(), QueroAjudarOng.class);
-        startActivity(intent);
+        onBackPressed();
     }
 
     /*
@@ -70,7 +67,7 @@ public class DetalhesCasoActivity extends AppCompatActivity {
     public void email(View view){
 
         String msg = getMsgParaOng();
-        String destinatario = ong.getEmail();
+        String destinatario = caso.getOng().getEmail();
 
         Intent EnviarEmail = new Intent(Intent.ACTION_SEND);
         EnviarEmail.putExtra(Intent.EXTRA_EMAIL, new String[] {destinatario});
@@ -90,7 +87,7 @@ public class DetalhesCasoActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" +
-                ong.getWhatsapp() +
+                caso.getOng().getWhatsapp() +
                 "&text=" +
                 msg));
 
@@ -102,7 +99,7 @@ public class DetalhesCasoActivity extends AppCompatActivity {
     * Método que define a mensagem que será enviada no email ou whatsapp
     * */
     public String getMsgParaOng(){
-        return getMsgHoras() + " " + ong.getNome() + ", Gostaria de ajudar no caso " +
+        return getMsgHoras() + " " + caso.getOng().getNome() + ", Gostaria de ajudar no caso " +
                 caso.getTitulo() + ", com o valor de " + String.format("R$ %.2f", caso.getValor());
     }
 
