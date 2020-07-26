@@ -66,8 +66,10 @@ public class ListagemDeCasos extends AppCompatActivity {
         rvCasoOngAdapter = new RvCasoOngAdapter(this, casosOng,
                 new RvCasoOngAdapter.CasoOnClickListener() {
                     @Override
-                    public void onClickTrash(int position) {
-                        apagarCaso(casosOng.get(position).getId());
+                    public void onClickTrash(int position, TextView tv) {
+                        System.out.println("entrou no método de apagar caso " + position);
+                        tv.setEnabled(false); //garante que o icone nao será clicável durante a op
+                        apagarCaso(casosOng.get(position).getId(), tv);
                     }
                 });
 
@@ -95,7 +97,7 @@ public class ListagemDeCasos extends AppCompatActivity {
                         casoUtils = new CasoUtils<>(db, casosOng, rvCasoOngAdapter,
                                 null, true, emailOng);
 
-                        casoUtils.listenerCasos();
+                        casoUtils.listenerCasosOng();
                     }
                 });
     }
@@ -123,7 +125,7 @@ public class ListagemDeCasos extends AppCompatActivity {
     /*
     * Método que apaga um documento de caso na sub-coleção casos do documento da ong atual pelo id
     * */
-    public void apagarCaso(String id){
+    public void apagarCaso(String id, final TextView tv){
 
         db.collection("ongs")
                 .document(emailOng)
@@ -135,6 +137,7 @@ public class ListagemDeCasos extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getApplicationContext(), "Caso apagado",
                                 Toast.LENGTH_LONG).show();
+                        tv.setEnabled(true);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -143,6 +146,15 @@ public class ListagemDeCasos extends AppCompatActivity {
                                         "tente novamente mais tarde", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    /*
+    * Método para fechar o app quando o botão de voltar for pressionado na tela de gerenciamento
+    * de ong, forçando o usuário a deslogar caso deseje voltar nas opções da main activity.
+    * */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
 }

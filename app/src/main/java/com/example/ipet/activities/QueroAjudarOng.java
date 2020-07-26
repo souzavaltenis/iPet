@@ -48,7 +48,7 @@ public class QueroAjudarOng extends AppCompatActivity {
                     public void onClickDetails(int position) {
                         Intent intent = new Intent(getApplicationContext(),
                                 DetalhesCasoActivity.class);
-                        intent.putExtra("casoOng", (Parcelable)casosOngs.get(position));
+                        intent.putExtra("casoOng", (Parcelable) casosOngs.get(position));
                         startActivity(intent);
                     }
          });
@@ -65,7 +65,7 @@ public class QueroAjudarOng extends AppCompatActivity {
             }
         }, false, null);
 
-        casoUtils.listenerCasos();
+        casoUtils.listenerAllCasos();
     }
 
 }

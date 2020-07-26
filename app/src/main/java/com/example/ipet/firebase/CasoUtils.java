@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ipet.entities.Caso;
 import com.example.ipet.entities.Ong;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CasoUtils<T extends RecyclerView.ViewHolder> {
@@ -31,9 +31,8 @@ public class CasoUtils<T extends RecyclerView.ViewHolder> {
     Boolean filterOng;
     String emailOng;
 
-    public CasoUtils(FirebaseFirestore db, List<Caso> casosOngs,
-                     RecyclerView.Adapter<T> rvAdapter, Changes changes, Boolean filterOng,
-                     String emailOng) {
+    public CasoUtils(FirebaseFirestore db, List<Caso> casosOngs, RecyclerView.Adapter<T> rvAdapter,
+                     Changes changes, Boolean filterOng, String emailOng) {
         this.db = db;
         this.casosOngs = casosOngs;
         this.rvAdapter = rvAdapter;
@@ -43,118 +42,165 @@ public class CasoUtils<T extends RecyclerView.ViewHolder> {
     }
 
     /*
-    * Listener que chamará o método obterDadosCasos quando descobrir alguma alteração,
-    * sendo configurado para sem filtro de ong e com filtro.
+    * Listener exclusivo para somente os casos de uma ong, caso haja alterações, atualiza a lista
+    * usando o runActions.
     * */
-    public void listenerCasos(){
-
-        if(filterOng){ //adiciona listener de alterações apenas na subcoleção casos de uma ong
-            db.collection("ongs")
-                    .document(emailOng)
-                    .collection("casos")
-                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot value,
-                                            @Nullable FirebaseFirestoreException error) {
-                            obterDadosCasos();
-                        }
-                    });
-
-        }else{ //add listener de alterações em todas as subcoleções de todas ongs
-
-            db.collectionGroup("casos")
-                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot value,
-                                            @Nullable FirebaseFirestoreException error) {
-                            obterDadosCasos();
-                        }
-                    });
-
-        }
-    }
-
-    /*
-    * Método responsável por preencher a lista de casos de acordo com as configurações passadas
-    * ao instanciar o mesmo.
-    * */
-    public void obterDadosCasos(){
-
-        casosOngs.clear(); //garante que a lista vai estar vazia e preparada para receber dados
-
-        if(!filterOng) { //pesquisa sem filtro de ong
-
-            //pega todos os documentos de ong e passa para o método getCasosOf que irá acumular
-            //os casos da ong atual, fazendo isso com todas, conseguindo todos os casos.
-            db.collection("ongs")
-                    .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(DocumentSnapshot document : queryDocumentSnapshots){
-                                Ong ong = document.toObject(Ong.class);
-                                getCasosOf(ong);
-                            }
-                        }
-                    });
-
-        }else{ //pesquisa com filtro de ong
-
-            //pesquisa direta no documento da ong passada no construtor, quando dado sucesso
-            //insere na lista apenas os casos da ong escolhida.
-            db.collection("ongs")
-                    .document(emailOng)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            Ong ong = task.getResult().toObject(Ong.class);
-                            getCasosOf(ong);
-                        }
-                    });
-        }
-    }
-
-    /*
-    * Recebe um objeto ong para realizar uma pesquisa no documento de ong correspondente, pegando
-    * todos os documentos do mesmo.
-    * */
-    public void getCasosOf(final Ong ong){
+    public void listenerCasosOng(){
 
         db.collection("ongs")
-                .document(ong.getEmail())
+                .document(emailOng)
                 .collection("casos")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        extractDataCasos(ong, queryDocumentSnapshots);
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if(value != null){
+                            runActions(value.getDocumentChanges());
+                        }
                     }
                 });
     }
 
     /*
-    * Extrai os dados presentes no QuerySnapshot documents e add na lista cada caso juntamente com
-    * a ong. Depois de ler todos documentos, é adicionado essa lista temporária na lista principal
-    * e avisa ao adaptador do recyclerview que houve mudanças nela para que ele atualize.
+    * Listener que ficará responsável por ouvir modificações em todas coleções de casos, e caso
+    * haja, atualiza a lista usando o runActions.
     * */
-    public void extractDataCasos(Ong ong, QuerySnapshot documents) {
+    public void listenerAllCasos(){
 
-        List<Caso> casos = new ArrayList<>();
+        db.collectionGroup("casos")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if(value != null){
+                            runActions(value.getDocumentChanges());
+                        }
+                    }
+                });
+    }
 
-        for(DocumentSnapshot document : documents){
-            String id = document.getString("id");
-            String titulo = document.getString("titulo");
-            String descricao = document.getString("descricao");
-            Double valor = document.getDouble("valor");
-            casos.add(new Caso(id, titulo, descricao, valor, ong));
+    /*
+    * Recebe a lista de documentos captados no listener, pega cada um e ve o tipo de ação, e para
+    * cada ação, há um case no switch, fazendo suas respectivas alterações com os métodos: addDoc,
+    * removeDoc, modifyDoc.
+    * */
+    public void runActions(List<DocumentChange> docs){
+
+        for(DocumentChange documentChange : docs){
+
+            DocumentChange.Type tipoAcao = documentChange.getType();
+            QueryDocumentSnapshot document = documentChange.getDocument();
+
+            switch (tipoAcao){
+                case ADDED: addDoc(document); break;
+                case REMOVED: removeDoc(document); break;
+                case MODIFIED: modifyDoc(document); break;
+            }
+
+        }
+    }
+
+    /*
+    * Método que irá adicionar os dados de um documento caso na lista de casos.
+    *
+    * Primeiramente é necessário obter o email caso seja preciso pegar todos os casos,
+    * para isso foi pegado o path do documento, ex: ongs/anjospet@gmail.com/casos/sfcj540983788fshj
+    * usando split com '/' e pegando o index 1, que é exatamente o email da ong deste caso.
+    *
+    * Segundamente, é acessado o documento da ong do email escolhido, e obter os dados da ong,
+    * depois só foi necessário criar um caso com os dados ja presente no QueryDocumentSnapshot
+    * juntamente com o objeto ong, adicionando na lista de casos principal e avisando as views
+    * que houve modificações usando o método sendSinalsToViews();
+    * */
+    public void addDoc(final QueryDocumentSnapshot document){
+
+        final String email = filterOng ? emailOng : document.getReference().getPath().split("/")[1];
+
+        db.collection("ongs")
+                .document(email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        Ong ong = task.getResult().toObject(Ong.class);
+
+                        casosOngs.add(new Caso(
+                           document.getString("id"),
+                           document.getString("titulo"),
+                           document.getString("descricao"),
+                           document.getDouble("valor"),
+                           ong
+                        ));
+
+                        sendSinalsToViews();
+                    }
+                });
+    }
+
+
+    /*
+    * Método que irá apenas detectar o index do caso na lista de casos local, usando o método
+    * getPosiCaso(), removendo usando este index, e avisando as views sobre a atualização com o
+    * método sendSinalsToView();
+    * */
+    public void removeDoc(QueryDocumentSnapshot document){
+
+        int posicao = getPosiCaso(document.getId());
+
+        if(posicao != -1){
+            casosOngs.remove(posicao);
+            sendSinalsToViews();
+        }
+    }
+
+    /*
+     * Método que irá apenas detectar o index na lista de casos local, usando o método
+     * getPosiCaso(), modificando os valores do caso usando este index, e avisando as views sobre
+     * a atualização com o método sendSinalsToView();
+     * */
+    public void modifyDoc(QueryDocumentSnapshot document){
+
+        int posicao = getPosiCaso(document.getId());
+
+        if(posicao != -1){
+
+            Caso caso = casosOngs.get(posicao);
+            caso.setId(document.getString("id"));
+            caso.setTitulo(document.getString("titulo"));
+            caso.setDescricao(document.getString("descricao"));
+            caso.setValor(document.getDouble("valor"));
+
+            rvAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /*
+    * Pega a posição na lista de casos que tenha o mesmo id passado como parâmetro, caso não ache,
+    * retorne -1.
+    * */
+    public int getPosiCaso(String id){
+
+        for(int i=0; i<casosOngs.size(); i++){
+            if(casosOngs.get(i).getId().equals(id)){
+                return i;
+            }
         }
 
-        casosOngs.addAll(casos);
+        return -1;
+    }
+
+    /*
+    * Avisa ao adaptador do recyclerview que houve modificações na lista que ele esta usando, usando
+    * o método notifyDataSetChanged() e caso a interface de changes não for nula, seta o textview
+    * contador de casos com o valor atual do tamanho da lista.
+    * */
+    public void sendSinalsToViews(){
+
         rvAdapter.notifyDataSetChanged();
 
         if(changes != null){
             changes.setarQuantidadeCasos(casosOngs.size());
         }
     }
-
 }

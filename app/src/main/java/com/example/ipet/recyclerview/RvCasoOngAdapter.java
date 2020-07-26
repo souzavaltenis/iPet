@@ -21,7 +21,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
     private final CasoOnClickListener onClickListener;
 
     public interface CasoOnClickListener {
-        void onClickTrash(int position);
+        void onClickTrash(int position, TextView tv);
     }
 
     public RvCasoOngAdapter(Context context, List<Caso> casosOng,
@@ -57,8 +57,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
         holder.trashTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.trashTv.setEnabled(false); //garante que não será mais "clicável" na espera
-                onClickListener.onClickTrash(position);
+                onClickListener.onClickTrash(position, holder.trashTv);
             }
         });
     }
