@@ -54,6 +54,29 @@
         android:hint="Descricao" />
 
     <EditText
+        android:id="@+id/etNomeAnimal"
+        android:layout_width="345dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:textColorHint="#716F89"
+        android:textSize="20dp"
+        android:background="@drawable/style_edit"
+        android:padding="5dp"
+        android:inputType="text"
+        android:hint="Nome do animal" />
+
+    <Spinner
+        android:id="@+id/spEspecie"
+        android:layout_width="345dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/style_spinner"
+        android:padding="5dp" />
+
+    <EditText
         android:id="@+id/etValorCaso"
         android:layout_width="345dp"
         android:layout_height="50dp"

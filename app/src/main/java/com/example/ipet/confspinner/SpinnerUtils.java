@@ -7,7 +7,9 @@ import android.widget.Spinner;
 import com.example.ipet.apiufcity.DadosApi;
 import com.example.ipet.R;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class SpinnerUtils {
 
@@ -65,4 +67,9 @@ public class SpinnerUtils {
         ).runConf();
     }
 
+    public static void setDataSpinner(Spinner spinner, Context context, String title, List<String> dados){
+        spinner.setAdapter(new NothingSelectedSpinnerAdapter(new ArrayAdapter<>(context,
+                R.layout.spinner_row, dados), title, R.layout.spinner_row, context)
+        );
+    }
 }

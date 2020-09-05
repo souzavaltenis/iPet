@@ -52,6 +52,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
         holder.tvOng.setText(caso.getOng().getNome());
         holder.tvTitulo.setText(caso.getTitulo());
         holder.tvDescricao.setText(caso.getDescricao());
+        holder.tvAnimalData.setText(caso.getNomeAnimal() + " (" + caso.getEspecie() + ")");
         holder.tvValor.setText(String.valueOf(caso.getValor()));
 
         holder.trashTv.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
         TextView tvOng;
         TextView tvTitulo;
         TextView tvDescricao;
+        TextView tvAnimalData;
         TextView tvValor;
         TextView trashTv;
         View view;
@@ -77,6 +79,7 @@ public class RvCasoOngAdapter extends RecyclerView.Adapter<RvCasoOngAdapter.Caso
             tvOng = view.findViewById(R.id.tvOngData);
             tvTitulo = view.findViewById(R.id.tvTitleData);
             tvDescricao = view.findViewById(R.id.tvDescricaoData);
+            tvAnimalData = view.findViewById(R.id.tvAnimalData);
             tvValor = view.findViewById(R.id.tvValorData);
             trashTv = view.findViewById(R.id.trashTv);
         }

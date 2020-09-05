@@ -88,16 +88,12 @@ public class ConfigureSpinner {
                     Collections.sort(dados);
                 }
 
-                spinner.setAdapter(
-                        new NothingSelectedSpinnerAdapter(
-                                new ArrayAdapter<>(context, R.layout.spinner_row, dados),
-                                title, R.layout.spinner_row, context
-                        )
-                );
+                SpinnerUtils.setDataSpinner(spinner, context, title, dados);
 
                 spinner.setEnabled(true); //ativa quando os dados chegar
             }
         }).getData();
 
     }
+
 }

@@ -129,6 +129,8 @@ public class CasoUtils<T extends RecyclerView.ViewHolder> {
                            document.getString("id"),
                            document.getString("titulo"),
                            document.getString("descricao"),
+                           document.getString("nomeAnimal"),
+                           document.getString("especie"),
                            document.getDouble("valor"),
                            ong
                         ));

@@ -88,6 +88,27 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/tvAnimalInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="7dp"
+                android:text="Animal"
+                android:textColor="#716F89"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAnimalData"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Beijû (Cachorro)"
+                android:textColor="#716F89"
+                android:layout_marginStart="15dp"
+                android:textSize="18sp" />
+
+            <TextView
                 android:id="@+id/tvtValorInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
